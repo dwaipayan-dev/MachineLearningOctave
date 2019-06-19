@@ -9,6 +9,8 @@ function [lambda_vec, error_train, error_val] = ...
 %       y) and validation set (Xval, yval).
 %
 
+m = size(X, 1);
+m_cv = size(Xval,1);
 % Selected values of lambda (you should not change this)
 lambda_vec = [0 0.001 0.003 0.01 0.03 0.1 0.3 1 3 10]';
 
@@ -38,7 +40,15 @@ error_val = zeros(length(lambda_vec), 1);
 %       end
 %
 %
-
+for i = 1:length(lambda_vec)
+  t = trainLinearReg(X,y,lambda_vec(i));
+  H_train = X*t;
+  J_train = (sum((H_train-y).^2))/(2*m);
+  error_train(i) = J_train;
+  H_val = Xval*t;
+  J_val = (sum((H_val-yval).^2))/(2*m_cv);
+  error_val(i) = J_val;
+  endfor
 
 
 
